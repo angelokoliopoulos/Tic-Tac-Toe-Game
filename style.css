@@ -1,16 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    display: flex;
-    font-family: 'Roboto', 'sans-serif';
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+:root {
+    --purple: #3e0249;
+  }
+  body {
     margin: 0;
+    padding: 0;
+    color: var(--purple);
+    font-family: sans-serif;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  
+  h1 {
+    font-size: 54px;
+    text-transform: uppercase;
+  }
+  
+  .container {
+    padding: 40px;
     height: 100vh;
-    overflow: hidden;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  #gameboard {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 450px;
+  }
+  
+  .box {
+    height: 150px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 150px;
+    color: var(--purple);
+  }
+  
