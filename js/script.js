@@ -57,8 +57,6 @@ const GameBoard = (() => {
 
     boardValues[clickedArea] = playermark;
     boxes[clickedArea].textContent = playermark;
-    // console.log(boardValues);
-    gameController.swapPlayer();
   };
 
   const getBoardState = () => {
@@ -107,6 +105,7 @@ const gameController = (() => {
     }
 
     console.log(currentPlayer);
+    swapPlayer();
   };
 
   const getPlayer = () => {
