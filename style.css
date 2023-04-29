@@ -18,7 +18,6 @@
   
   .container {
     padding: 40px;
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,7 +25,8 @@
   }
   
   #gameboard {
-    margin-top: 40px;
+    
+    margin-top: 3rem;
     display: flex;
     flex-wrap: wrap;
     width: 450px;
