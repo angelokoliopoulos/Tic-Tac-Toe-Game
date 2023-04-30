@@ -69,7 +69,10 @@ const Gamecontroller = (() => {
     if (checkForWin(Gameboard.getBoardValues())) {
       alert(`Player: ${players[currentPlayer].mark} wins`);
     }
-    if (checkForTie(Gameboard.getBoardValues())) {
+    if (
+      checkForTie(Gameboard.getBoardValues()) &&
+      !checkForWin(Gameboard.getBoardValues())
+    ) {
       alert("its a tie");
     }
     Gamecontroller.swapPlayer();
