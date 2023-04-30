@@ -1,11 +1,9 @@
-:root {
-    --purple: #3e0249;
-  }
+
   body {
     margin: 0;
     padding: 0;
-    color: var(--purple);
-    font-family: sans-serif;
+ 
+    font-family: 'Permanent Marker', cursive;
   }
   * {
     box-sizing: border-box;
@@ -13,11 +11,9 @@
   
   h1 {
     font-size: 54px;
-    text-transform: uppercase;
   }
   
   .container {
-    padding: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,20 +21,41 @@
   }
   
   #gameboard {
-    
-    margin-top: 3rem;
+    margin: 3rem auto;
     display: flex;
     flex-wrap: wrap;
     width: 450px;
+    -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
   }
   
   .box {
+    cursor:pointer;
     height: 150px;
     width: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 150px;
-    color: var(--purple);
+  }
+
+  .box:hover{
+    background-color: #e3f5fd;
   }
   
+
+  .btn{
+    margin-top:2rem;
+    font-size: 1.3rem;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(28, 26, 26);
+    background: linear-gradient(90deg, #e3f5fd 0%, #e5e3fd 100%);
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor:pointer;
+  }
