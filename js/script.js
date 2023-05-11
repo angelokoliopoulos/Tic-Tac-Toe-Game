@@ -9,96 +9,108 @@ const MessageDisplay = (() => {
   const feedBack = document.querySelector(".feedBack");
 
   const displayTurn = (player) => {
-    feedBack.firstChild.textContent = `Player's ${player} turn`;
+    feedBack.querySelector("h3").innerText = `Player's ${player} turn`;
   };
-  const clearDisplay = () => {
-    feedBack.firstChild.textContent = ``;
+  const winMsg = (player) => {
+    feedBack.querySelector("h3").innerText = `Player:  ${player} wins the game`;
   };
 
-  return { displayTurn, clearDisplay };
+  const clearFeed = () => {
+    feedBack.querySelector("h3").innerText = ``;
+  };
+
+  return {
+    displayTurn,
+    winMsg,
+    clearFeed,
+  };
 })();
 
 const Gameboard = (() => {
   const boxes = Array.from(document.querySelectorAll(".box"));
   const boardValues = ["", "", "", "", "", "", "", "", ""];
-  const drawboard = () => {
+
+  const drawBoard = () => {
     boxes.forEach((box, index) => {
-      let cssRule = "";
+      let CSSrule = "";
       if (index < 3) {
-        cssRule += `border-bottom:3px solid black;`;
+        CSSrule += "border-bottom:3px solid black;";
       }
       if (index % 3 === 0) {
-        cssRule += `border-right:3px solid black;`;
+        CSSrule += "border-right:3px solid black;";
       }
       if (index % 3 === 2) {
-        cssRule += `border-left:3px solid black;`;
+        CSSrule += "border-left:3px solid black;";
       }
       if (index > 5) {
-        cssRule += `border-top:3px solid black;`;
+        CSSrule += "border-top:3px solid black;";
       }
-      box.style = cssRule;
       box.innerText = "";
-      box.addEventListener("click", Gamecontroller.handleMove);
+      box.style = CSSrule;
+      box.addEventListener("click", Gamecontroller.handleClick);
     });
   };
-
-  const updateBoard = (clickedArea, playerMark) => {
+  const updateBoard = (playerMark, clickedArea) => {
+    boxes[clickedArea].innerText = playerMark;
     boardValues[clickedArea] = playerMark;
-    boxes[clickedArea].textContent = playerMark;
   };
 
   const getBoardState = () => {
     return boardValues;
   };
 
-  const resetBoardValues = () => {
+  const resetBoard = () => {
     for (let i = 0; i < boardValues.length; i++) {
       boardValues[i] = "";
     }
   };
+
+  const removeListeners = () => {
+    boxes.forEach((box) => {
+      box.removeEventListener("click", Gamecontroller.handleClick);
+    });
+  };
+
   return {
-    drawboard,
+    drawBoard,
     updateBoard,
     getBoardState,
-    resetBoardValues,
+    resetBoard,
+    removeListeners,
   };
 })();
 
 const Gamecontroller = (() => {
   let gameOver;
-  let currentPlayer;
   let players;
+  let currentPlayer;
 
   const loadGame = () => {
+    MessageDisplay.clearFeed();
+    players = [createPlayer("Player 1", "O"), createPlayer("Player 1", "X")];
+
     gameOver = false;
     currentPlayer = 0;
-    players = [createPlayer("Player 1", "O"), createPlayer("Player 2", "X")];
-    Gameboard.drawboard();
+    Gameboard.drawBoard();
   };
-  const handleMove = (e) => {
-    const clickedArea = e.target.id;
-    console.log(clickedArea);
-    if (Gameboard.getBoardState()[clickedArea] !== "") return;
 
-    Gameboard.updateBoard(clickedArea, players[currentPlayer].mark);
-    MessageDisplay.displayTurn(players[currentPlayer === 0 ? 1 : 0].mark);
+  const handleClick = (e) => {
+    let clickedArea = e.target.id;
+    if (Gameboard.getBoardState()[clickedArea] != "") return;
+    Gameboard.updateBoard(players[currentPlayer].mark, clickedArea);
+    MessageDisplay.displayTurn(players[currentPlayer === 1 ? 0 : 1].mark);
 
     if (checkForWin(Gameboard.getBoardState())) {
-      alert(`Player ${players[currentPlayer].mark} wins`);
-      MessageDisplay.clearDisplay();
+      MessageDisplay.winMsg(players[currentPlayer].mark);
+      Gameboard.removeListeners();
       return;
     }
-    if (
-      (checkForWin(Gameboard.getBoardState()),
-      checkForTie(Gameboard.getBoardState()))
-    ) {
-      alert("Its a tie ");
-      return;
-    }
+
     swapPlayer();
   };
+
   const swapPlayer = () => {
-    currentPlayer = currentPlayer === 0 ? 1 : 0;
+    currentPlayer = currentPlayer === 1 ? 0 : 1;
   };
 
   const checkForWin = (board) => {
@@ -121,20 +133,20 @@ const Gamecontroller = (() => {
     }
     return false;
   };
-
   const checkForTie = (board) => {
     return board.every((cell) => cell !== "");
   };
-
   return {
     loadGame,
-    handleMove,
+    handleClick,
     swapPlayer,
   };
 })();
 
 document.addEventListener("DOMContentLoaded", Gamecontroller.loadGame);
-document.getElementById("restartBtn").addEventListener("click", () => {
-  Gamecontroller.loadGame();
-  Gameboard.resetBoardValues();
-});
+const reset = document
+  .getElementById("restartBtn")
+  .addEventListener("click", () => {
+    Gameboard.resetBoard();
+    Gamecontroller.loadGame();
+  });

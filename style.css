@@ -46,6 +46,10 @@
   .box:hover{
     background-color: #e3f5fd;
   }
+
+  .feedBack  {
+    min-height: 70px;
+  }
   
 
   .btn{
