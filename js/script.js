@@ -9,20 +9,25 @@ const MessageDisplay = (() => {
   const feedBack = document.querySelector(".feedBack");
 
   const displayTurn = (player) => {
-    feedBack.querySelector("h3").innerText = `Player's ${player} turn`;
+    feedBack.querySelector("h2").innerText = `Player's ${player} turn`;
   };
   const winMsg = (player) => {
-    feedBack.querySelector("h3").innerText = `Player:  ${player} wins the game`;
+    feedBack.querySelector("h2").innerText = `Player:  ${player} wins the game`;
+  };
+
+  const tieMsg = () => {
+    feedBack.querySelector("h2").innerText = `Its a tie!`;
   };
 
   const clearFeed = () => {
-    feedBack.querySelector("h3").innerText = ``;
+    feedBack.querySelector("h2").innerText = ``;
   };
 
   return {
     displayTurn,
     winMsg,
     clearFeed,
+    tieMsg,
   };
 })();
 
@@ -105,7 +110,14 @@ const Gamecontroller = (() => {
       Gameboard.removeListeners();
       return;
     }
-
+    if (
+      !checkForWin(Gameboard.getBoardState()) &&
+      checkForTie(Gameboard.getBoardState())
+    ) {
+      MessageDisplay.tieMsg();
+      Gameboard.removeListeners();
+      return;
+    }
     swapPlayer();
   };
 
