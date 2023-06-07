@@ -121,6 +121,19 @@ const Gamecontroller = (() => {
     swapPlayer();
   };
 
+  const getComputerMove = () => {
+    let availableMoves = [];
+    Gameboard.getBoardState().forEach((item, index) => {
+      if (item === "") {
+        availableMoves.push(index);
+      }
+    });
+
+    const random = Math.floor(Math.random() * availableMoves.length);
+    let move = availableMoves[random];
+    return move;
+  };
+
   const swapPlayer = () => {
     currentPlayer = currentPlayer === 1 ? 0 : 1;
   };
