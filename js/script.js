@@ -92,7 +92,7 @@ const Gamecontroller = (() => {
 
   const loadGame = () => {
     MessageDisplay.clearFeed();
-    players = [createPlayer("Player 1", "O"), createPlayer("Player 1", "X")];
+    players = [createPlayer("Player 1", "O"), createPlayer("Player 2", "X")];
 
     gameOver = false;
     currentPlayer = 0;
@@ -110,10 +110,7 @@ const Gamecontroller = (() => {
       Gameboard.removeListeners();
       return;
     }
-    if (
-      !checkForWin(Gameboard.getBoardState()) &&
-      checkForTie(Gameboard.getBoardState())
-    ) {
+    if (checkForTie(Gameboard.getBoardState())) {
       MessageDisplay.tieMsg();
       Gameboard.removeListeners();
       return;
@@ -156,9 +153,7 @@ const Gamecontroller = (() => {
 })();
 
 document.addEventListener("DOMContentLoaded", Gamecontroller.loadGame);
-const reset = document
-  .getElementById("restartBtn")
-  .addEventListener("click", () => {
-    Gameboard.resetBoard();
-    Gamecontroller.loadGame();
-  });
+document.getElementById("restartBtn").addEventListener("click", () => {
+  Gameboard.resetBoard();
+  Gamecontroller.loadGame();
+});
